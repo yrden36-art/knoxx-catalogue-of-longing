@@ -1,0 +1,444 @@
+/* Catalogue of Longing */
+
+/* Global site colors, fonts, and base spacing */
+:root {
+  color-scheme: dark;
+  --ink: #0b0b0a;
+  --graphite: #1c1c1a;
+  --ash: #8e8b83;
+  --paper: #dedbd3;
+  --bone: #f1efe9;
+  --type: "Special Elite", "Courier New", Courier, monospace;
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+
+/* Base resets for safe sizing across desktop, tablet, and mobile */
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1rem + 0.45vw, 1.4rem);
+  line-height: 1.65;
+  min-height: 100vh;
+  animation: pageReveal 0.9s ease-out both;
+}
+
+@keyframes pageReveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+p,
+li,
+a {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--ink) url(images/bg.jpg) center/cover no-repeat;
+  filter: grayscale(1) brightness(0.55) contrast(1.1);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 40%, rgba(11, 11, 10, 0.35), rgba(11, 11, 10, 0.88) 85%);
+}
+
+/* Links and focus states for readable navigation */
+a {
+  color: inherit;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: 4px;
+}
+
+/* Hero section: landing page intro and poem index */
+.hero {
+  width: min(100%, 72rem);
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(4rem, 8vh, 8rem) clamp(1.25rem, 4vw, 4rem) clamp(2rem, 5vh, 4rem);
+  margin: 0 auto;
+  opacity: 0;
+  animation: heroReveal 0.9s ease-out 0.2s forwards;
+}
+
+.hero h1,
+.hero .author,
+.hero .sub,
+.hero nav {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroReveal 0.9s ease-out forwards;
+}
+
+.hero h1 {
+  font-family: var(--type);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 7vw, 6.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--bone);
+  animation-delay: 0.35s;
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 span {
+  display: block;
+  min-height: 1.02em;
+}
+
+.hero .author {
+  margin: 0.75rem 0 0;
+  color: var(--bone);
+  font-family: var(--type);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  letter-spacing: 0.04em;
+  animation-delay: 0.5s;
+}
+
+.hero p.sub {
+  font-style: italic;
+  color: var(--ash);
+  margin: 1rem 0 3rem;
+  max-width: 30rem;
+  animation-delay: 0.65s;
+}
+
+.hero nav {
+  animation-delay: 0.8s;
+}
+
+.hero ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--type);
+  font-size: 1rem;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--ash);
+}
+
+.hero li a {
+  text-decoration: none;
+  text-transform: lowercase;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.hero li a:hover {
+  color: var(--bone);
+  border-color: var(--ash);
+}
+
+/* Search control matches poem titles or text and reports the result count */
+.poem-search {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto minmax(0, 30rem) minmax(0, 12rem);
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.65rem clamp(1rem, 4vw, 4rem);
+  border-top: 1px solid rgba(222, 219, 211, 0.12);
+  border-bottom: 1px solid rgba(222, 219, 211, 0.2);
+  background: rgba(11, 11, 10, 0.96);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font-family: var(--type);
+  font-size: 0.9rem;
+  color: var(--ash);
+}
+
+.poem-search label {
+  white-space: nowrap;
+}
+
+.poem-search input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--ash);
+  border-radius: 0;
+  background: rgba(11, 11, 10, 0.75);
+  color: var(--bone);
+  font: inherit;
+}
+
+.poem-search input::placeholder {
+  color: var(--ash);
+  opacity: 0.85;
+}
+
+.poem-search input:focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: 3px;
+}
+
+.poem-search .search-status {
+  min-height: 1.5em;
+  margin: 0;
+  font-style: normal;
+}
+
+/* Typing caret creates the animated effect under the title lines */
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.08em;
+  height: 0.9em;
+  margin-left: 0.06em;
+  background: var(--ash);
+  vertical-align: -0.05em;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Poem cards control the alternating image/text layout for each poem section */
+.poem {
+  width: min(100%, 72rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr);
+  gap: clamp(1.5rem, 4vw, 5rem);
+  align-items: center;
+  margin: 0 auto;
+  padding: clamp(4rem, 10vh, 11rem) clamp(1.25rem, 4vw, 4rem);
+  opacity: 0;
+  transform: translateY(42px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.poem[hidden] {
+  display: none;
+}
+
+.poem.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.poem > * {
+  min-width: 0;
+}
+
+.poem.flip figure {
+  order: 2;
+}
+
+figure {
+  margin: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  max-height: min(80vh, 52rem);
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.05);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 98%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 98%);
+}
+
+article {
+  width: 100%;
+  max-width: 34rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+}
+
+.poem.visible figure,
+.poem.visible article {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+article h2 {
+  font-family: var(--type);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--bone);
+  margin: 0 0 2rem;
+  text-transform: lowercase;
+}
+
+article p {
+  margin: 0 0 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  max-width: 34rem;
+}
+
+/* Footer keeps the site ending minimal and provides a return link */
+footer {
+  text-align: center;
+  padding: clamp(3rem, 8vh, 8rem) clamp(1.25rem, 4vw, 4rem) clamp(4rem, 9vh, 8rem);
+  font-family: var(--type);
+  color: var(--ash);
+  font-size: 0.95rem;
+}
+
+footer a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--ash);
+}
+
+/* Tablet layout: keep content readable without clipping large images */
+@media (max-width: 980px) {
+  .hero {
+    min-height: 80vh;
+  }
+
+  .poem {
+    grid-template-columns: 1fr;
+    padding: clamp(3.5rem, 8vw, 6rem) clamp(1rem, 3vw, 2rem);
+  }
+
+  .poem.flip figure {
+    order: 0;
+  }
+
+  article {
+    max-width: 100%;
+  }
+
+  figure img {
+    max-height: min(42vh, 30rem);
+  }
+}
+
+/* Mobile layout collapses the poem cards into a single safe column */
+@media (max-width: 640px) {
+  body {
+    font-size: clamp(1rem, 2.7vw, 1.2rem);
+  }
+
+  .hero {
+    min-height: 78vh;
+    padding: 4rem 1rem 2.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 13vw, 4rem);
+  }
+
+  .hero p.sub {
+    margin: 1.2rem 0 2rem;
+    max-width: 100%;
+  }
+
+  .hero ol {
+    gap: 0.5rem;
+  }
+
+  .poem-search {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .poem-search input {
+    min-height: 2.5rem;
+  }
+
+  .poem-search .search-status {
+    min-height: 0;
+  }
+
+  article h2 {
+    font-size: clamp(1.7rem, 8vw, 2.6rem);
+    margin-bottom: 1.25rem;
+  }
+
+  article p {
+    max-width: none;
+  }
+
+  figure img {
+    max-height: 36vh;
+  }
+
+  footer {
+    padding-top: 3rem;
+  }
+}
+
+/* Reduced motion preference disables smooth scrolling and blinking caret */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .caret::after {
+    animation: none;
+  }
+}
